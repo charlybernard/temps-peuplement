@@ -1,7 +1,7 @@
 {
   "baseIRI": "http://example.com/base/",
   "namespaces": {
-    "addr": "http:/rdf.geohistorical.org/address#",
+    "addr": "http://rdf.geohistoricaldata.org/address#",
     "geo": "http://www.opengis.net/ont/geosparql#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
   },
@@ -86,9 +86,12 @@
           },
           "values": [
             {
+              "transformation": {
+                "expression": "if(cells[\"streetname\"].value != None, cells[\"streetname\"].value.replace(\"-\", \"- \").toTitlecase().replace(\"- \", \"-\").replace(/^r /i, \"rue \").replace(/^all /i, \"all \").replace(/^bd /i, \"boulevard \").replace(/^pas /i, \"passage \").replace(/^av /i, \"avenue \").replace(/^pl /i, \"place \").replace(/^av /i, \"avenue \").replace(/^rle /i, \"ruelle \").replace(/ de /i, \" de \").replace(/ des /i, \" des \").replace(/ du /i, \" du \").replace(/ le /i, \" le \").replace(/ la /i, \" la \").replace(/ les /i, \" les \").replace(/ aux /i, \" aux \").replace(/ au /i, \" au \").replace(/ en /i, \" en \").replace(/l'/i, \"l'\").replace(/d'/i, \"d'\").replace(/ st /i, \" Saint-\").replace(/ st-/i, \" Saint-\"),\"\")",
+                "language": "grel"
+              },
               "valueSource": {
-                "columnName": "streetname",
-                "source": "column"
+                "source": "row_index"
               },
               "valueType": {
                 "type": "language_literal",

@@ -1,7 +1,7 @@
 {
   "baseIRI": "http://example.com/base/",
   "namespaces": {
-    "addr": "http:/rdf.geohistorical.org/address#",
+    "addr": "http://rdf.geohistoricaldata.org/address#",
     "geo": "http://www.opengis.net/ont/geosparql#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
   },
