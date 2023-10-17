@@ -5,6 +5,9 @@ from rdflib import Graph, Namespace, Literal, BNode
 from rdflib.namespace import RDF
 import xml.etree.ElementTree as ET
 from SPARQLWrapper import SPARQLWrapper, TURTLE
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 ## Functions to manage files and folders
 
@@ -103,15 +106,33 @@ def create_config_local_repository_file(config_repository_file, repository_name)
 def export_data_from_repository(graphdb_url, project_name, res_query_file):
     query = """CONSTRUCT {?s ?p ?o} WHERE {?s ?p ?o}"""
     query_encoded = up.quote(query)
-    cmd = f"curl -X POST -H \"Content-Type:application/x-www-form-urlencoded\" -H \"Accept:text/turtle\" -d \"query={query_encoded}\" {get_repository_uri_from_name(graphdb_url, project_name)}"
+    post_data = f"query={query_encoded}"
+    cmd = get_curl_command("POST", get_repository_uri_from_name(graphdb_url, project_name), content_type="application/x-www-form-urlencoded", accept="text/turtle", post_data=post_data)
     out_content = os.popen(cmd)
     write_file(out_content.read(), res_query_file)
 
 def select_query(query, graphdb_url, project_name, res_query_file):
     query_encoded = up.quote(query)
-    cmd = f"curl -X POST -H \"Content-Type:application/x-www-form-urlencoded\" -d \"query={query_encoded}\" {get_repository_uri_from_name(graphdb_url, project_name)}"
+    post_data = f"query={query_encoded}"
+    cmd = get_curl_command("POST", get_repository_uri_from_name(graphdb_url, project_name), content_type="application/x-www-form-urlencoded", post_data=post_data)
     out_content = os.popen(cmd)
     write_file(out_content.read(), res_query_file)
+
+def get_curl_command(method, url, content_type=None, accept=None, post_data=None, local_file=None, form=None):
+    curl_cmd = f"curl -X {method}" 
+    if content_type is not None:
+        curl_cmd += f" -H \"Content-Type:{content_type}\""
+    if accept is not None:
+        curl_cmd += f" -H \"Accept:{accept}\""
+    if post_data is not None:
+        curl_cmd += f" -d \"{post_data}\""
+    if local_file is not None:
+        curl_cmd += f" -T \"{local_file}\""
+    if form is not None:
+        curl_cmd += f" -F \"{form}\""
+    curl_cmd += f" {url}"
+
+    return curl_cmd
 
 ## Functions to manage graph with SPARQL queries
 
@@ -128,7 +149,9 @@ def remove_circular_same_as_links(graphdb_url, project_name):
     """
 
     query_encoded = up.quote(query)
-    cmd = f"curl -X POST -H \"Content-Type:application/x-www-form-urlencoded\" -d \"update={query_encoded}\" {get_repository_uri_from_name(graphdb_url,project_name)}/statements"
+    url = f"{get_repository_uri_from_name(graphdb_url,project_name)}/statements"
+    post_data = f"update={query_encoded}"
+    cmd = get_curl_command("POST", url, content_type="application/x-www-form-urlencoded", post_data=post_data)
     os.system(cmd)
 
 def get_entries_without_same_as_links(graphdb_url, project_name, res_query_file):
@@ -224,7 +247,8 @@ def get_export_file_from_ontorefine(ontorefine_cmd, ontorefine_url, project_name
 ### Import created ttl file in GraphDB
 def import_ttl_file_in_graphdb(graphdb_url, repository_id, ttl_file, graph_name):
     # cmd = f"curl -X POST -H \"Content-Type:application/x-turtle\" -T \"{ttl_file}\" {graphdb_url}/repositories/{repository_id}/statements"
-    cmd = f"curl -X POST -H \"Content-Type:application/x-turtle\" -T \"{ttl_file}\" {graphdb_url}/repositories/{repository_id}/rdf-graphs/{graph_name}"
+    url = get_graph_uri_from_name(graphdb_url, repository_id, graph_name)
+    cmd = get_curl_command("POST", url, content_type="application/x-turtle", local_file=ttl_file)
 
     os.system(cmd)
 

@@ -1,0 +1,171 @@
+@prefix : <http://rdf.geohistoricaldata.org/address#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix addr: <http://rdf.geohistoricaldata.org/address#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@base <http://rdf.geohistoricaldata.org/address> .
+
+<http://rdf.geohistoricaldata.org/address> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://www.w3.org/2004/02/skos/core#altLabel
+skos:altLabel rdf:type owl:AnnotationProperty .
+
+###  http://www.w3.org/2004/02/skos/core#broader
+skos:broader rdf:type owl:AnnotationProperty .
+
+###  http://www.w3.org/2004/02/skos/core#definition
+skos:definition rdf:type owl:AnnotationProperty .
+
+###  http://www.w3.org/2004/02/skos/core#inScheme
+skos:inScheme rdf:type owl:AnnotationProperty .
+
+###  http://www.w3.org/2004/02/skos/core#prefLabel
+skos:prefLabel rdf:type owl:AnnotationProperty .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+addr:before rdf:type owl:ObjectProperty ;
+           rdfs:domain addr:AttributeChange ;
+           rdfs:range addr:AttributeVersion ;
+           rdfs:comment "Décrit un état qui se passe avant un événement"@fr ;
+           rdfs:label "précédé par"@fr .
+
+addr:after rdf:type owl:ObjectProperty ;
+           rdfs:domain addr:AttributeChange ;
+           rdfs:range addr:AttributeVersion ;
+           rdfs:comment "Décrit un état qui se passe après un événement"@fr ;
+           rdfs:label "suivi par"@fr .
+
+ addr:appliedTo rdf:type owl:ObjectProperty ;
+            rdfs:domain addr:Change ;
+            rdfs:range [ a owl:Class;
+          			owl:unionOf (addr:Attribute addr:Landmark)] ;
+            rdfs:comment "Définit sur quoi s'applique le changement"@fr ;
+            rdfs:label "s'applique"@fr .
+
+addr:version rdf:type owl:ObjectProperty ;
+            rdfs:domain addr:Attribute ;
+            rdfs:range addr:AttributeVersion ;
+            rdfs:comment "Version d'une valeur associée à l'attribut"@fr ;
+            rdfs:label "a pour version"@fr .
+
+addr:hasAttribute rdf:type owl:ObjectProperty ;
+            rdfs:domain addr:Landmark ;
+            rdfs:range addr:Attribute ;
+            rdfs:comment "Décrit l'attribut pour un repère"@fr ;
+            rdfs:label "a pour attribut"@fr .
+
+addr:dependsOn rdf:type owl:ObjectProperty ;
+            rdfs:domain addr:Change ;
+            rdfs:range addr:Event ;
+            rdfs:comment "Décrit l'appartenance d'un changement à un événement"@fr ;
+            rdfs:label "dépend de l'événement"@fr .
+
+addr:value rdf:type owl:DatatypeProperty ;
+            rdfs:domain addr:AttributeVersion ;
+            rdfs:range xsd:string ;
+            rdfs:comment "Valeur de liée à une version d'attribut"@fr ;
+            rdfs:label "a pour valeur"@fr .
+
+addr:eventTimeValue rdf:type owl:DatatypeProperty ;
+            rdfs:domain addr:Event ;
+            rdfs:range xsd:dateTime ;
+            rdfs:comment "Valeur de l'instant lié à l'événement"@fr ;
+            rdfs:label "a pour date"@fr .
+
+addr:eventTimePrecision rdf:type owl:DatatypeProperty ;
+            rdfs:domain addr:Event ;
+            rdfs:range xsd:integer ;
+            rdfs:comment "Précision de l'instant lié à l'événement"@fr ;
+            rdfs:label "a pour précision temporelle"@fr .
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://rdf.geohistoricaldata.org/address#Attribute
+addr:AttributeVersion rdf:type owl:Class ;
+             rdfs:label "version de l'attribut"@fr .
+
+###  http://rdf.geohistoricaldata.org/address#Address
+addr:Attribute rdf:type owl:Class ;
+            rdfs:label "attribut"@fr .
+
+###  http://rdf.geohistoricaldata.org/address#Event
+addr:Event rdf:type owl:Class ;
+             rdfs:label "événement"@fr .
+
+###  http://rdf.geohistoricaldata.org/address#Change
+addr:Change rdf:type owl:Class ;
+            rdfs:label "changement"@fr .
+
+###  http://rdf.geohistoricaldata.org/address#AttributeChange
+addr:AttributeChange rdf:type owl:Class ;
+            rdfs:subClassOf addr:Change ;
+            rdfs:label "changement sur l'attribut"@fr .
+
+###  http://rdf.geohistoricaldata.org/address#LandmarkChange
+addr:LandmarkChange rdf:type owl:Class ;
+            rdfs:subClassOf addr:Change ;
+            rdfs:label "changement sur le repère"@fr .
+
+###  http://www.w3.org/2004/02/skos/core#Concept
+skos:Concept rdf:type owl:Class .
+
+###  http://www.w3.org/2004/02/skos/core#ConceptScheme
+skos:ConceptScheme rdf:type owl:Class .
+
+
+addr:ChangeType rdf:type owl:Class ;
+                  rdfs:subClassOf skos:Concept ;
+                  rdfs:label "Type d'événement"@fr.
+
+addr:AttributeType rdf:type owl:Class ;
+                  rdfs:subClassOf skos:Concept ;
+                  rdfs:label "Type d'attribut"@fr.
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+addr:ChangeList rdf:type owl:NamedIndividual ,
+                             skos:ConceptScheme ;
+                        rdfs:comment "Liste des différents rôles pouvant être joués par un changement, représentés comme une liste de concepts SKOS."@fr ;
+                        rdfs:label "type d'événement"@fr.
+
+addr:AttributeList rdf:type owl:NamedIndividual ,
+                             skos:ConceptScheme ;
+                        rdfs:comment "Liste des différents rôles pouvant être joués par un attribut, représentés comme une liste de concepts SKOS."@fr ;
+                        rdfs:label "type d'attribut"@fr.
+
+
+addr:Creation rdf:type owl:NamedIndividual ,
+                                  addr:ChangeType ,
+                                  skos:Concept ;
+                         skos:definition "Changement décrivant la création de l'élément"@fr ;
+                         skos:inScheme addr:EventList ;
+                         skos:prefLabel "création"@fr .
+
+ addr:Dissolution rdf:type owl:NamedIndividual ,
+                                  addr:ChangeType ,
+                                  skos:Concept ;
+                         skos:definition "Changement décrivant la dissolution de l'élément"@fr ;
+                         skos:inScheme addr:EventList ;
+                         skos:prefLabel "dissolution"@fr .
+
+ addr:ChangeName rdf:type owl:NamedIndividual ,
+                                  addr:ChangeType ,
+                                  skos:Concept ;
+                         skos:definition "Changement décrivant la changement d'un nom pour un élément"@fr ;
+                         skos:inScheme addr:EventList ;
+                         skos:prefLabel "changement de nom"@fr .
