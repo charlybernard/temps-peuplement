@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="372.59311mm"
+   height="167.40445mm"
+   viewBox="0 0 372.59311 167.40445"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (1:1.3+202307231459+0e150ed6c4)"
+   sodipodi:docname="structure_example.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.52830277"
+     inkscape:cx="902.89135"
+     inkscape:cy="208.21394"
+     inkscape:window-width="1850"
+     inkscape:window-height="1016"
+     inkscape:window-x="70"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="214.86497"
+       height="66.176308"
+       id="rect2" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="449.49347"
+       height="57.375736"
+       id="rect3" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="393.58066"
+       height="61.686764"
+       id="rect6" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="242.38217"
+       height="63.987705"
+       id="rect7" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="293.29761"
+       height="57.633362"
+       id="rect8" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="242.38217"
+       height="63.987705"
+       id="rect9" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="242.04417"
+       height="107.75237"
+       id="rect10" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="393.58066"
+       height="61.686764"
+       id="rect12" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="449.49347"
+       height="57.375736"
+       id="rect13" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="393.58066"
+       height="61.686764"
+       id="rect15" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="449.49347"
+       height="57.375736"
+       id="rect16" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="393.58066"
+       height="61.686764"
+       id="rect18" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="449.49347"
+       height="57.375736"
+       id="rect19" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="393.58066"
+       height="61.686764"
+       id="rect22" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="449.49347"
+       height="57.375736"
+       id="rect23" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="242.38217"
+       height="63.987705"
+       id="rect27" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="242.04417"
+       height="107.75237"
+       id="rect28" />
+    <rect
+       x="165.44405"
+       y="321.68268"
+       width="293.29761"
+       height="57.633362"
+       id="rect31" />
+  </defs>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-11.577619,-5.5224895)">
+    <rect
+       style="fill:#ececec;stroke:none;stroke-width:0.750001;stroke-dasharray:1.5, 0.750001;stroke-dashoffset:0"
+       id="rect32"
+       width="372.59311"
+       height="167.40445"
+       x="11.577619"
+       y="5.5224895" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.75;stroke-dasharray:none;marker-end:url(#Triangle)"
+       d="M 219.62475,85.67866 267.875,32.010186"
+       id="path24"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.75;stroke-dasharray:none;marker-end:url(#Triangle)"
+       d="M 220.31204,88.988102 267.875,71.585637"
+       id="path25"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.75;stroke-dasharray:none;marker-end:url(#Triangle)"
+       d="M 220.47478,92.438215 267.875,108.40677"
+       id="path26"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.75;stroke-dasharray:none;marker-end:url(#Triangle)"
+       d="M 220.4455,96.539477 267.875,150.54609"
+       id="path27"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#cccccc;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+       id="rect1"
+       width="65.351257"
+       height="20.631937"
+       x="23.360867"
+       y="80.70726"
+       ry="5.3815136" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-15.694695,3.2125426)"
+       id="text1"
+       style="font-size:26.6667px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect2);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+         x="165.44336"
+         y="328.61069"
+         id="tspan4"><tspan
+           style="font-weight:bold;fill:#000000;stroke:none"
+           id="tspan1">wd:Q1573359</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-12.206501,9.5134252)"
+       id="text3"
+       style="font-size:20px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect3);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+         x="165.44336"
+         y="326.87891"
+         id="tspan13"><tspan
+           style="font-style:italic;fill:#000000;stroke:none"
+           id="tspan10">place de la Nation</tspan></tspan></text>
+    <g
+       id="g8"
+       transform="translate(0,2.2784824)">
+      <rect
+         style="fill:#f4e3d7;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+         id="rect5"
+         width="86.688538"
+         height="16.654654"
+         x="134.61145"
+         y="80.417419"
+         ry="4.3441019" />
+      <text
+         xml:space="preserve"
+         transform="matrix(0.26458333,0,0,0.26458333,96.144819,3.6481327)"
+         id="text5"
+         style="font-size:26.6667px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect6);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+           x="165.44336"
+           y="328.61069"
+           id="tspan19"><tspan
+             style="font-weight:bold;fill:#000000;stroke:none"
+             id="tspan16">addr:Q1573359_AN</tspan></tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-12.13867,22.027835)"
+       id="text6"
+       style="font-size:24px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect7);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+         x="165.44336"
+         y="327.91797"
+         id="tspan23"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan20">addr:Landmark</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,102.47867,19.282991)"
+       id="text7"
+       style="font-size:24px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect8);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+         x="165.44336"
+         y="327.91797"
+         id="tspan25"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan24">addr:AttributeName</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.75;stroke-dasharray:none;marker-end:url(#Triangle)"
+       d="M 88.791005,90 H 131.73778"
+       id="path8"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.25;stroke-dasharray:none"
+       d="M 111.59605,75.661623 V 89.888302"
+       id="path10"
+       sodipodi:nodetypes="cc" />
+    <g
+       id="g22"
+       transform="translate(14.602133,32.076772)">
+      <g
+         id="g24">
+        <g
+           id="g21"
+           transform="translate(11.0124,-37.041668)">
+          <rect
+             style="fill:#ffeeaa;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+             id="rect11"
+             width="99.729889"
+             height="20.470201"
+             x="244.38757"
+             y="24.620234"
+             ry="5.3393269" />
+          <text
+             xml:space="preserve"
+             transform="matrix(0.26458333,0,0,0.26458333,205.84252,-52.149051)"
+             id="text11"
+             style="font-size:26.6667px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect12);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+               x="165.44336"
+               y="328.61069"
+               id="tspan29"><tspan
+                 style="font-weight:bold;fill:#000000;stroke:none"
+                 id="tspan26">addr:Q1573359_AN_v1</tspan></tspan></text>
+          <text
+             xml:space="preserve"
+             transform="matrix(0.26458333,0,0,0.26458333,231.02536,-44.695991)"
+             id="text12"
+             style="font-size:20px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect13);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+               x="165.44336"
+               y="326.87891"
+               id="tspan32"><tspan
+                 style="font-style:italic;fill:#000000;stroke:none"
+                 id="tspan30">place du Trône</tspan></tspan></text>
+        </g>
+        <g
+           id="g20"
+           transform="translate(10.465205,-35.869457)">
+          <rect
+             style="fill:#ffeeaa;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+             id="rect14"
+             width="99.729889"
+             height="20.470201"
+             x="244.93477"
+             y="64.203217"
+             ry="5.3393269" />
+          <text
+             xml:space="preserve"
+             transform="matrix(0.26458333,0,0,0.26458333,206.45346,-12.566069)"
+             id="text14"
+             style="font-size:26.6667px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect15);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+               x="165.44336"
+               y="328.61069"
+               id="tspan34"><tspan
+                 style="font-weight:bold;fill:#000000;stroke:none"
+                 id="tspan33">addr:Q1573359_AN_v2</tspan></tspan></text>
+          <text
+             xml:space="preserve"
+             transform="matrix(0.26458333,0,0,0.26458333,218.28655,-5.1130089)"
+             id="text15"
+             style="font-size:20px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect16);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+               x="165.44336"
+               y="326.87891"
+               id="tspan36"><tspan
+                 style="font-style:italic;fill:#000000;stroke:none"
+                 id="tspan35">place du Trône Renversé</tspan></tspan></text>
+        </g>
+        <g
+           id="g19"
+           transform="translate(5.2916667,-40.755194)">
+          <rect
+             style="fill:#ffeeaa;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+             id="rect17"
+             width="99.729889"
+             height="20.470201"
+             x="250.10831"
+             y="109.84415"
+             ry="5.3393269" />
+          <text
+             xml:space="preserve"
+             transform="matrix(0.26458333,0,0,0.26458333,211.60116,33.074865)"
+             id="text17"
+             style="font-size:26.6667px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect18);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+               x="165.44336"
+               y="328.61069"
+               id="tspan38"><tspan
+                 style="font-weight:bold;fill:#000000;stroke:none"
+                 id="tspan37">addr:Q1573359_AN_v3</tspan></tspan></text>
+          <text
+             xml:space="preserve"
+             transform="matrix(0.26458333,0,0,0.26458333,236.7461,40.527925)"
+             id="text18"
+             style="font-size:20px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect19);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+               x="165.44336"
+               y="326.87891"
+               id="tspan40"><tspan
+                 style="font-style:italic;fill:#000000;stroke:none"
+                 id="tspan39">place du Trône</tspan></tspan></text>
+        </g>
+        <g
+           id="g23"
+           transform="translate(5.2916667)">
+          <rect
+             style="fill:#ffeeaa;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+             id="rect21"
+             width="99.729889"
+             height="20.470201"
+             x="250.10831"
+             y="109.84415"
+             ry="5.3393269" />
+          <text
+             xml:space="preserve"
+             transform="matrix(0.26458333,0,0,0.26458333,211.4823,33.074865)"
+             id="text21"
+             style="font-size:26.6667px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect22);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+               x="165.44336"
+               y="328.61069"
+               id="tspan42"><tspan
+                 style="font-weight:bold;fill:#000000;stroke:none"
+                 id="tspan41">addr:Q1573359_AN_v4</tspan></tspan></text>
+          <text
+             xml:space="preserve"
+             transform="matrix(0.26458333,0,0,0.26458333,232.41303,40.527925)"
+             id="text22"
+             style="font-size:20px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect23);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+               x="165.44336"
+               y="326.87891"
+               id="tspan44"><tspan
+                 style="font-style:italic;fill:#000000;stroke:none"
+                 id="tspan43">place de la Nation</tspan></tspan></text>
+        </g>
+      </g>
+    </g>
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.75;stroke-dasharray:1.5, 0.75;stroke-dashoffset:0"
+       id="rect29"
+       width="62.85199"
+       height="15.864478"
+       x="79.362534"
+       y="59.652077"
+       ry="0" />
+    <g
+       id="g29"
+       transform="translate(-0.8075188,-0.54746887)">
+      <text
+         xml:space="preserve"
+         transform="matrix(0.26458333,0,0,0.26458333,39.873811,-19.322178)"
+         id="text8"
+         style="font-size:24px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect9);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+           x="165.44336"
+           y="327.91797"
+           id="tspan46"><tspan
+             style="fill:#000000;stroke:none"
+             id="tspan45">addr:hasAttribute</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         transform="matrix(0.26458333,0,0,0.26458333,35.612056,-16.58462)"
+         id="text9"
+         style="font-size:20px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect10);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"
+         x="37.363281"
+         y="0"><tspan
+           x="213.59961"
+           y="336.87891"
+           id="tspan48"><tspan
+             style="font-style:italic;text-align:center;text-anchor:middle;fill:#000000;stroke:none"
+             id="tspan47">a pour attribut</tspan></tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.25;stroke-dasharray:none"
+       d="m 214.61675,49.219113 21.10978,18.335072"
+       id="path31"
+       sodipodi:nodetypes="cc" />
+    <g
+       id="g31"
+       transform="translate(-6.7990812,2.5630605)">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.75;stroke-dasharray:1.5, 0.75;stroke-dashoffset:0"
+         id="rect30"
+         width="46.892792"
+         height="14.335233"
+         x="197.7347"
+         y="34.199326"
+         ry="0" />
+      <g
+         id="g30"
+         transform="translate(0.41935632,-0.44824122)">
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,157.14288,-45.343639)"
+           id="text27"
+           style="font-size:24px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect27);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+             x="165.44336"
+             y="327.91797"
+             id="tspan50"><tspan
+               style="fill:#000000;stroke:none"
+               id="tspan49">addr:version</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,145.03871,-43.196362)"
+           id="text28"
+           style="font-size:20px;line-height:1;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect28);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"
+           x="37.363281"
+           y="0"><tspan
+             x="214.43945"
+             y="336.87891"
+             id="tspan52"><tspan
+               style="font-style:italic;text-align:center;text-anchor:middle;fill:#000000;stroke:none"
+               id="tspan51">a pour version</tspan></tspan></text>
+      </g>
+    </g>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,242.18239,-39.75324)"
+       id="text31"
+       style="font-size:24px;line-height:0;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans';white-space:pre;shape-inside:url(#rect31);display:inline;fill:#cccccc;stroke:#000000;stroke-width:3.77953"><tspan
+         x="165.44336"
+         y="327.91797"
+         id="tspan54"><tspan
+           style="fill:#000000;stroke:none"
+           id="tspan53">addr:AttributeVersion</tspan></tspan></text>
+  </g>
+</svg>
