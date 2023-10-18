@@ -253,10 +253,10 @@ def import_ttl_file_in_graphdb(graphdb_url, repository_id, ttl_file, graph_name)
     os.system(cmd)
 
 ## Export query result
-def get_construct_query_wikidata(query):
+def get_construct_query_wikidata(query, format=TURTLE):
     endpoint_url = "https://query.wikidata.org/sparql"
     user_agent = "WDQS-example Python/%s.%s" % (sys.version_info[0], sys.version_info[1])
     sparql = SPARQLWrapper(endpoint_url, agent=user_agent)
     sparql.setQuery(query)
-    sparql.setReturnFormat(TURTLE)
+    sparql.setReturnFormat(format)
     return sparql.query().convert()
