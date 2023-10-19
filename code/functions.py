@@ -4,8 +4,9 @@ import urllib.parse as up
 from rdflib import Graph, Namespace, Literal, BNode 
 from rdflib.namespace import RDF
 import xml.etree.ElementTree as ET
-from SPARQLWrapper import SPARQLWrapper, TURTLE
+from SPARQLWrapper import SPARQLWrapper, TURTLE, JSON
 import ssl
+import requests
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -134,95 +135,6 @@ def get_curl_command(method, url, content_type=None, accept=None, post_data=None
 
     return curl_cmd
 
-## Functions to manage graph with SPARQL queries
-
-def remove_circular_same_as_links(graphdb_url, project_name):
-    query = """
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-
-    DELETE {
-        ?s owl:sameAs ?s
-    }
-    WHERE {
-       ?s owl:sameAs ?s
-    }
-    """
-
-    query_encoded = up.quote(query)
-    url = f"{get_repository_uri_from_name(graphdb_url,project_name)}/statements"
-    post_data = f"update={query_encoded}"
-    cmd = get_curl_command("POST", url, content_type="application/x-www-form-urlencoded", post_data=post_data)
-    os.system(cmd)
-
-def get_entries_without_same_as_links(graphdb_url, project_name, res_query_file):
-    query = """
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX e: <http://rdf.geohistoricaldata.org/def/directory#>
-    PREFIX rda: <http://rdaregistry.info/Elements/a/>
-    PREFIX locn: <http://www.w3.org/ns/locn#>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    select ?id ?personne ?activite ?adresse ?source where { 
-        ?id a e:Entry; rdfs:label ?personne; rda:P50104 ?activite; locn:fullAddress ?adresse; prov:wasDerivedFrom ?source.
-        MINUS {?id owl:sameAs [a e:Entry]}
-    }
-    """
-
-    select_query(query, graphdb_url, project_name, res_query_file)
-
-def get_stats_per_source(graphdb_url, project_name, res_query_file):
-    query = """
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX e: <http://rdf.geohistoricaldata.org/def/directory#>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    select ?source ?countSourceWithoutLinks (COUNT(?source) AS ?countTotal) (CEIL(?countSourceWithoutLinks/COUNT(?source)*10000)/100 AS ?ratio) where {
-    ?s1 a e:Entry; prov:wasDerivedFrom ?source.
-    {
-    select ?source (COUNT(?source) AS ?countSourceWithoutLinks) where { 
-        ?s1 a e:Entry; prov:wasDerivedFrom ?source.
-        MINUS {?s1 owl:sameAs [a e:Entry]}
-    }
-        GROUP BY (?source)}
-    }
-    GROUP BY ?source ?countSourceWithoutLinks
-    """
-
-    select_query(query, graphdb_url, project_name, res_query_file)
-
-def get_same_as_links_from_graph(graph_url, graphdb_url, project_name, res_query_file):
-    query_template = """
-    PREFIX locn: <http://www.w3.org/ns/locn#>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX rda: <http://rdaregistry.info/Elements/a/>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    SELECT ?id1 ?id2 ?source1 ?source2 ?adresse1 ?adresse2 ?activite1 ?activite2 ?personne1 ?personne2 WHERE {{
-        ?id1 locn:fullAddress ?adresse1; rda:P50104 ?activite1; rdfs:label ?personne1; prov:wasDerivedFrom ?source1.
-        ?id2 locn:fullAddress ?adresse2; rda:P50104 ?activite2; rdfs:label ?personne2; prov:wasDerivedFrom ?source2.
-        GRAPH {graph_url} {{?s1 owl:sameAs ?s2}}
-    }}
-    """
-
-    query_template = """
-    PREFIX locn: <http://www.w3.org/ns/locn#>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX rda: <http://rdaregistry.info/Elements/a/>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    SELECT ?s1 ?s2  WHERE {{
-        GRAPH {graph_url} {{?s1 owl:sameAs ?s2}}
-    }}
-    """
-    
-    query = query_template.format(graph_url=graph_url)
-    select_query(query, graphdb_url, project_name, res_query_file)
-
-def get_same_as_links_from_all_graph(settings, graphdb_url, project_name):
-    for setting in settings:
-        graph_name = setting.get("name")
-        out_file = setting.get("csv_file_name")
-        graph_uri = f"<{get_graph_uri_from_name(graphdb_url, project_name, graph_name)}>"
-        get_same_as_links_from_graph(graph_uri, graphdb_url, project_name, out_file)
 
 ### Create a ttl file in ontorefine from csv file
 def get_export_file_from_ontorefine(ontorefine_cmd, ontorefine_url, project_name, data_file, mapping_file, export_file):
@@ -253,10 +165,61 @@ def import_ttl_file_in_graphdb(graphdb_url, repository_id, ttl_file, graph_name)
     os.system(cmd)
 
 ## Export query result
-def get_construct_query_wikidata(query, format=TURTLE):
+def get_construct_query_wikidata(query:str, format=TURTLE):
     endpoint_url = "https://query.wikidata.org/sparql"
     user_agent = "WDQS-example Python/%s.%s" % (sys.version_info[0], sys.version_info[1])
     sparql = SPARQLWrapper(endpoint_url, agent=user_agent)
     sparql.setQuery(query)
     sparql.setReturnFormat(format)
     return sparql.query().convert()
+
+## Export query result
+def get_select_query_wikidata(query:str):
+    endpoint_url = "https://query.wikidata.org/sparql"
+    user_agent = "WDQS-example Python/%s.%s" % (sys.version_info[0], sys.version_info[1])
+    sparql = SPARQLWrapper(endpoint_url, agent=user_agent)
+    sparql.setQuery(query)
+    sparql.setReturnFormat(JSON)
+    return sparql.query().convert()
+
+
+### Get ttl files of Wikidata entities
+def get_url_content(url:str, session:requests.sessions.Session):
+    r = session.get(url=url)
+    return r
+
+def get_ttl_file_from_wikidata_id(wikidata_id:str, out_wikidata_folder:str, session:requests.sessions.Session, flavor:str="full"):
+    #flavor can get three values : `full`, `simple` and `dump` (see https://www.wikidata.org/wiki/Wikidata:Data_access for more information)
+    url = f"https://www.wikidata.org/entity/{wikidata_id}.ttl?flavor={flavor}"
+    c = get_url_content(url, session)
+    out_file = os.path.join(out_wikidata_folder, f"{wikidata_id}.ttl")
+    write_file(c.text, out_file)
+
+def get_ttl_files_from_wikidata_ids(wikidata_id_list:list[str], out_wikidata_folder:str, flavor="full"):
+    session = requests.Session()
+    for wd_id in wikidata_id_list:
+        get_ttl_file_from_wikidata_id(wd_id, out_wikidata_folder, session, flavor)
+
+def get_wikidata_ids_list_from_query(query, qid_variable):
+    query_res = get_select_query_wikidata(query)
+    wd_ids = []
+    for val in query_res['results']['bindings']:
+        wd_id = val.get(qid_variable).get('value').replace("http://www.wikidata.org/entity/", "")
+        wd_ids.append(wd_id)
+
+    return wd_ids
+
+def get_ttl_files_from_wikidata_query(query:str, qid_variable:str, out_wikidata_folder:str, flavor:str="full"):
+    """
+    For each Wikidata entity (whose URI has `http://www.wikidata.org/entity/Qxxxxxx`),
+    get a ttl file describing the element thanks to `http://www.wikidata.org/entity/Qxxxxxx.ttlflavor={flavor}` URI.
+
+    Query is SPARQL select query and must return a variable whose value is `qid_variable`, it must describe a Wikidata entity
+
+    If `qid_variable=street`, `?street` is in `SELECT` part of the query : `SELECT ?street WHERE {...}`
+
+    Files are saved in `out_wikidata_folder` folder.
+    """
+
+    wd_ids = get_wikidata_ids_list_from_query(query, qid_variable)
+    get_ttl_files_from_wikidata_ids(wd_ids, out_wikidata_folder, flavor)
