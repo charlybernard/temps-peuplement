@@ -66,6 +66,9 @@ def remove_graphs(graphdb_url,project_name,graph_name_list):
     for g in graph_name_list:
         remove_graph(graphdb_url, project_name, g)
 
+def get_namespaces(graphdb_url, repository_name):
+    pass
+
 def create_config_local_repository_file(config_repository_file, repository_name):
     rep = Namespace("http://www.openrdf.org/config/repository#")
     sr = Namespace("http://www.openrdf.org/config/repository/sail#")
@@ -134,7 +137,23 @@ def get_curl_command(method, url, content_type=None, accept=None, post_data=None
     curl_cmd += f" {url}"
 
     return curl_cmd
+    
+def get_namespaces(graphdb_url, repository_name):
+    namespaces_uri = get_repository_uri_from_name(graphdb_url, repository_name) + "/namespaces"
+    cmd = f"curl -X GET {namespaces_uri}"
+    namespaces = os.popen(cmd).read()
+    return namespaces
 
+def get_repository_prefixes(graphdb_url, repository_name):
+    namespaces = get_namespaces(graphdb_url, repository_name).split("\n")
+    prefixes = ""
+    for namespace in namespaces[1:]:
+        try:
+            prefix, uri = namespace.split(",")
+            prefixes += f"PREFIX {prefix}: <{uri}>\n"
+        except:
+            pass
+    return prefixes
 
 ### Create a ttl file in ontorefine from csv file
 def get_export_file_from_ontorefine(ontorefine_cmd, ontorefine_url, project_name, data_file, mapping_file, export_file):
@@ -163,6 +182,12 @@ def import_ttl_file_in_graphdb(graphdb_url, repository_id, ttl_file, graph_name)
     cmd = get_curl_command("POST", url, content_type="application/x-turtle", local_file=ttl_file)
 
     os.system(cmd)
+
+def upload_ttl_folder_in_graphdb_repository(ttl_folder_name, graphdb_url, repository_id, graph_name):
+    for elem in os.listdir(ttl_folder_name):
+        elem_path = os.path.join(ttl_folder_name, elem)
+        if os.path.splitext(elem)[-1].lower() == ".ttl":
+            import_ttl_file_in_graphdb(graphdb_url, repository_id, elem_path, graph_name)
 
 ## Export query result
 def get_construct_query_wikidata(query:str, format=TURTLE):
