@@ -132,4 +132,4 @@ dmypy.json
 .DS_Store
 
 #Local folders
-./tmp_folder/
+./tmp_files/
