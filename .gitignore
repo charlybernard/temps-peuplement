@@ -131,7 +131,5 @@ dmypy.json
 #DS Store
 .DS_Store
 
-#My local files
-./files/voiesPlaceEtoile.geojson
-./files/voiesPlaceEtoile.osm
-./ttl/20140822.ttl
+#Local folders
+./tmp_folder/
