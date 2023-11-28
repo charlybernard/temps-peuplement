@@ -1,5 +1,6 @@
 import os
 import code.filemanagement as fm
+import code.ttlmanagement as ttlm
 import code.curl as curl
 import urllib.parse as up
 from rdflib import Graph, Namespace, Literal, BNode 
@@ -86,21 +87,37 @@ def update_query(query, graphdb_url, project_name):
     cmd = curl.get_curl_command("POST", url, content_type="application/x-www-form-urlencoded", post_data=f"update={query_encoded}")
     os.system(cmd)
 
-def get_namespaces(graphdb_url, repository_name):
+def get_repository_namespaces(graphdb_url, repository_name):
     namespaces_uri = get_repository_uri_from_name(graphdb_url, repository_name) + "/namespaces"
     cmd = curl.get_curl_command("GET", namespaces_uri)
-    namespaces = os.popen(cmd).read()
-    return namespaces
+    namespaces_list = os.popen(cmd).read().split("\n")[1:]
+    namespaces = {}
 
-def get_repository_prefixes(graphdb_url, repository_name):
-    namespaces = get_namespaces(graphdb_url, repository_name).split("\n")
-    prefixes = ""
-    for namespace in namespaces[1:]:
+    for namespace in namespaces_list:
         try:
             prefix, uri = namespace.split(",")
-            prefixes += f"PREFIX {prefix}: <{uri}>\n"
-        except:
+            namespaces[prefix] = uri
+        except ValueError:
             pass
+
+    return namespaces
+
+
+def get_repository_prefixes(graphdb_url, repository_name, perso_namespaces:dict=None):
+    """
+    perso_namespaces is a dictionnary which stores personalised namespaces to add of overwrite repository namespaces.
+    keys are prefixes and values are URIs
+    Ex: `{"geo":"http://data.ign.fr/def/geofla"}`
+    """
+
+    namespaces = get_repository_namespaces(graphdb_url, repository_name)
+    if perso_namespaces is not None:
+        namespaces.update(perso_namespaces)
+
+    prefixes = ""
+    for prefix, uri in namespaces.items():
+        prefixes += f"PREFIX {prefix}: <{uri}>\n"
+        
     return prefixes
 
 ### Import created ttl file in GraphDB
@@ -112,14 +129,20 @@ def import_ttl_file_in_graphdb(graphdb_url, repository_id, ttl_file, graph_name=
         url = get_graph_uri_from_name(graphdb_url, repository_id, graph_name)
     
     cmd = curl.get_curl_command("POST", url, content_type="application/x-turtle", local_file=ttl_file)
-
-    os.system(cmd)
+    msg = os.popen(cmd)
+    return msg.read()
 
 def upload_ttl_folder_in_graphdb_repository(ttl_folder_name, graphdb_url, repository_id, graph_name):
     for elem in os.listdir(ttl_folder_name):
         elem_path = os.path.join(ttl_folder_name, elem)
         if os.path.splitext(elem)[-1].lower() == ".ttl":
-            import_ttl_file_in_graphdb(graphdb_url, repository_id, elem_path, graph_name)
+            msg = import_ttl_file_in_graphdb(graphdb_url, repository_id, elem_path, graph_name)
+            # Création d'un fichier temporel sans URI problématique pour l'import si y a un problème.
+            if "Invalid IRI value" in msg:
+                tmp_elem_path = elem_path.replace(".ttl", "_tmp.ttl")
+                ttlm.format_ttl_to_avoid_invalid_iri_value_error(elem_path, tmp_elem_path)
+                msg = import_ttl_file_in_graphdb(graphdb_url, repository_id, tmp_elem_path, graph_name)
+                os.remove(tmp_elem_path)
 
 def clear_repository(graphdb_url, project_name):
     url = f"{graphdb_url}/repositories/{project_name}/statements"
