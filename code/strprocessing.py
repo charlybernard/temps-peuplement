@@ -41,3 +41,29 @@ def normalize_french_street_name(street_name:str):
     normalized_name = x(normalized_name)
 
     return normalized_name
+
+def get_lower_simplified_french_street_name_function(variable):
+    replacements = [["([- ]de[- ]la[- ]|[- ]de[- ]|[- ]des[- ]|[- ]du[- ]|[- ]le[- ]|[- ]la[- ]|[- ]les[- ]|[- ]aux[- ]|[- ]au[- ]|[- ]à[- ]|[- ]en[- ]|/|-|\.)", " "],
+                ["(l'|d')", ""],
+                ["[àâ]", "a"], 
+                ["[éèêë]", "e"], 
+                ["[îíìï]", "i"], 
+                ["[ôö]", "o"], 
+                ["[ûüù]", "u"], 
+                ["[ÿŷ]", "y"],
+                ["[ç]", "c"], 
+                ]
+    
+    lc_variable = f"LCASE({variable})"
+    return get_remplacement_sparql_function(lc_variable, replacements)
+
+def get_remplacement_sparql_function(string, replacements):
+    # arg, pattern, replacement = string, first_repl[0], first_repl[1]
+    # function_str = f"REPLACE({arg}, {pattern}, {replacement})"
+    function_str = string
+    for repl in replacements:
+        arg, pattern, replacement = function_str, repl[0], repl[1]
+        pattern = pattern.replace('\\', '\\\\')
+        function_str = f"REPLACE({arg}, \"{pattern}\", \"{replacement}\")"
+
+    return function_str
