@@ -5,6 +5,7 @@ import code.curl as curl
 import urllib.parse as up
 from rdflib import Graph, Namespace, Literal, BNode 
 from rdflib.namespace import RDF
+import json
 
 def get_repository_uri_from_name(graphdb_url, repository_name):
     return f"{graphdb_url}/repositories/{repository_name}"
@@ -74,12 +75,19 @@ def export_data_from_repository(graphdb_url, project_name, res_query_file):
     out_content = os.popen(cmd)
     fm.write_file(out_content.read(), res_query_file)
 
-def select_query(query, graphdb_url, project_name, res_query_file):
+def select_query_to_txt_file(query, graphdb_url, project_name, res_query_file):
     query_encoded = up.quote(query)
     post_data = f"query={query_encoded}"
     cmd = curl.get_curl_command("POST", get_repository_uri_from_name(graphdb_url, project_name), content_type="application/x-www-form-urlencoded", post_data=post_data)
     out_content = os.popen(cmd)
     fm.write_file(out_content.read(), res_query_file)
+
+def select_query_to_json(query, graphdb_url, project_name):
+    query_encoded = up.quote(query)
+    post_data = f"query={query_encoded}"
+    cmd = curl.get_curl_command("POST", get_repository_uri_from_name(graphdb_url, project_name), content_type="application/x-www-form-urlencoded", accept="application/json", post_data=post_data)
+    out_content = os.popen(cmd)
+    return json.loads(out_content.read())
 
 def update_query(query, graphdb_url, project_name):
     url = get_repository_uri_statements_from_name(graphdb_url, project_name)

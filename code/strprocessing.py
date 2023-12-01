@@ -132,15 +132,17 @@ def define_time_filter_for_sparql_query(val_tRef:str, cal_tRef:str, val_t1:str, 
     cal_t2_not_exists_val = t_not_exists.format(t=cal_t2)
 
     calendar_time_filter = f"""(
-        ({cal_t1} = {cal_tRef}) {and_op} ({cal_t2} = {cal_tRef}) {or_op}
-        ({cal_t1} = {cal_tRef}) {and_op} ({cal_t2_not_exists_val}) {or_op}
-        ({cal_t2} = {cal_tRef}) {and_op} ({cal_t1_not_exists_val})
+        (({cal_t1} = {cal_tRef}) {and_op} ({cal_t2} = {cal_tRef})) {or_op}
+        (({cal_t1} = {cal_tRef}) {and_op} ({cal_t2_not_exists_val})) {or_op}
+        (({cal_t2} = {cal_tRef}) {and_op} ({cal_t1_not_exists_val})) {or_op}
+        ({cal_t1_not_exists_val} {and_op} {cal_t2_not_exists_val})
         )"""
 
     value_time_filter = f"""(
         ({t1_get_tRef_val} {and_op} {t2_let_tRef_val}) {or_op}
         ({t1_get_tRef_val} {and_op} {t2_not_exists_val}) {or_op}
-        ({t2_let_tRef_val} {and_op} {t1_not_exists_val})
+        ({t2_let_tRef_val} {and_op} {t1_not_exists_val}) {or_op}
+        ({t1_not_exists_val} {and_op} {t2_not_exists_val})
         )
     """
 
