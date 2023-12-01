@@ -1,5 +1,5 @@
 import re
-from rdflib import Graph, RDFS, Literal
+from rdflib import Graph, RDFS, Literal, URIRef
 
 def remove_abbreviations_in_french_street_name(street_name:str):
     normalized_name = street_name.lower()
@@ -89,14 +89,18 @@ def normalize_street_rdfs_labels_in_graph_file(graph_file:str):
 
     g.serialize(graph_file)
 
-def define_time_filter_for_sparql_query(val_tRef:str, cal_tRef:str, val_t1:str, cal_t1:str, val_t2:str, cal_t2:str, time_precision:str="day"):
+def define_time_filter_for_sparql_query(val_tRef:str, cal_tRef:str, val_t1:str, cal_t1:str, val_t2:str, cal_t2:str, time_precision:URIRef="day"):
     """
     Création d'un filtre temporel pour les requêtes afin de sélectionner des données valables à l'instant `tRef` telles que t2 <= tRef <= t1
     val_tX sont des variables de la requête liées aux timestamps (`?t1Value`, `?t2Value`...)
     cal_tX sont des variables de la requête liées aux calendriers (`?t1Calendar`, `?t2Calendar`...)
 
-    `time_precision` peut prendre les valeurs suivantes : `"day"`, `"month"` et `"year"`
+    `time_precision` peut prendre les valeurs suivantes : 
+    * `URIRef("http://www.w3.org/2006/time#unitYear")` ;
+    * `URIRef("http://www.w3.org/2006/time#unitMonth")` ;
+    * `URIRef("http://www.w3.org/2006/time#unitDay")`.
     """
+    
     t1_get_t2 = "{t1} >= {t2}"
     t1_let_t2 = "{t1} <= {t2}"
     # t1_gt_t2 = "{t1} > {t2}"
@@ -114,10 +118,10 @@ def define_time_filter_for_sparql_query(val_tRef:str, cal_tRef:str, val_t1:str, 
     t1_let_t2_month = t1_let_t2.format(t1="MONTH({t1})", t2="MONTH({t2})")
     t1_let_t2_year_month = f"{t1_let_t2_year} {and_op} {t1_let_t2_month}"
 
-    if time_precision == "year":
+    if time_precision == URIRef("http://www.w3.org/2006/time#unitYear"):
         t1_get_tRef_comp = t1_get_t2_year
         t2_let_tRef_comp = t1_let_t2_year
-    elif time_precision == "month":
+    elif time_precision == URIRef("http://www.w3.org/2006/time#unitMonth"):
         t1_get_tRef_comp = t1_get_t2_year_month
         t2_let_tRef_comp = t1_let_t2_year_month
     else:
