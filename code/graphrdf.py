@@ -75,6 +75,25 @@ def create_attribute_version(attribute_uri:URIRef, value:str, g:Graph, namespace
     g.add((before_change_uri, namespace["before"], attr_vers_uri))
     g.add((after_change_uri, namespace["after"], attr_vers_uri))
     
+
+def convert_result_elem_to_rdflib_elem(result_elem:dict):
+    """
+    A partir d'un dictionnaire qui décrit un élement d'un résultat d'une requête, le convertir en un élément d'un triplet d'un graph (URIRef, Literal, Bnode)
+    """
+    
+    res_type = result_elem.get("type")
+    res_value = result_elem.get("value")
+    
+    if res_type == "uri":
+        return URIRef(res_value)
+    elif res_type == "literal":
+        res_lang = result_elem.get("xml:lang")
+        res_datatype = result_elem.get("datatype")
+        return Literal(res_value, lang=res_lang, datatype=res_datatype)
+    elif res_type == "bnode":
+        return BNode(res_value)
+    
+
 def generate_uri(namespace:Namespace=None, prefix:str=None):
     if prefix:
         return namespace[f"{prefix}_{uuid4().hex}"]
