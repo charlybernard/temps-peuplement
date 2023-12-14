@@ -1,5 +1,5 @@
-# streets_paris_hist
-Représentation de l'historique des voies de Paris.
+# Peuplement de l'ontologie de l'évolution temporelle
+Ce répertoire permet de peupler l'ontologie de l'évolution temporerelle des entités géohistoriques en se restreignant sur la ville de Paris.
 
 Avant de lancer le script présent dans `voies_paris_hist.ipynb`, il faut :
 * avoir un envrionnement de Python comportant les librairies suivantes : `urllib`, `rdflib` et `SPARQLWrapper` ;
