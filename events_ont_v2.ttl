@@ -7,7 +7,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix time: <http://www.w3.org/2006/time#> .
-@base <http://rdf.geohistoricaldata.org/address> .
+@base <http://rdf.geohistoricaldata.org/address#> .
 
 <http://rdf.geohistoricaldata.org/address> rdf:type owl:Ontology .
 
@@ -57,6 +57,7 @@ addr:appliedTo rdf:type owl:ObjectProperty ;
                rdfs:range [ rdf:type owl:Class ;
                             owl:unionOf ( addr:Attribute
                                           addr:Landmark
+                                          addr:LandmarkRelation
                                         )
                           ] ;
                rdfs:comment "Définit sur quoi s'applique le changement"@fr ;
@@ -131,6 +132,14 @@ addr:hasTime rdf:type owl:ObjectProperty ;
              rdfs:range addr:TimeInstant .
 
 
+###  http://rdf.geohistoricaldata.org/address#isLandmarkRelationType
+addr:isLandmarkRelationType rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf owl:topObjectProperty ;
+                            rdfs:domain addr:LandmarkRelation ;
+                            rdfs:comment "Décrit le type de relation entre repères définie par la ressource."@fr ;
+                            rdfs:label "est une relation entre repères de type"@fr .
+
+
 ###  http://rdf.geohistoricaldata.org/address#timeCalendar
 addr:timeCalendar rdf:type owl:ObjectProperty ;
                   rdfs:domain addr:TimeInstant ;
@@ -153,6 +162,23 @@ addr:version rdf:type owl:ObjectProperty ;
              rdfs:range addr:AttributeVersion ;
              rdfs:comment "Version d'une valeur associée à l'attribut"@fr ;
              rdfs:label "a pour version"@fr .
+
+###  http://rdf.geohistoricaldata.org/address#locatum
+addr:locatum rdf:type owl:ObjectProperty ;
+            rdfs:domain addr:LandmarkRelation ;
+            rdfs:range addr:Landmark ;
+            rdfs:comment "Donne le repère qui est le locatum pour la relation entre repères"@fr ;
+            rdfs:label "a pour locatum"@fr ,
+                       "has locatum"@en .
+
+
+###  http://rdf.geohistoricaldata.org/address#relatum
+addr:relatum rdf:type owl:ObjectProperty ;
+            rdfs:domain addr:LandmarkRelation ;
+            rdfs:range addr:Landmark ;
+            rdfs:comment "Donne le repère qui est un des relatums pour la relation entre repères"@fr ;
+            rdfs:label "a pour relatum"@fr ,
+                       "has relatum"@en .
 
 
 #################################################################
@@ -206,6 +232,7 @@ addr:Change rdf:type owl:Class ;
                               owl:allValuesFrom [ rdf:type owl:Class ;
                                                   owl:unionOf ( addr:Attribute
                                                                 addr:Landmark
+                                                                addr:LandmarkRelation
                                                               )
                                                 ]
                             ] ,
@@ -219,7 +246,7 @@ addr:Change rdf:type owl:Class ;
 ###  http://rdf.geohistoricaldata.org/address#ChangeType
 addr:ChangeType rdf:type owl:Class ;
                 rdfs:subClassOf skos:Concept ;
-                rdfs:label "Type d'événement"@fr .
+                rdfs:label "Type de changement"@fr .
 
 
 ###  http://rdf.geohistoricaldata.org/address#Event
@@ -253,6 +280,23 @@ addr:Landmark rdf:type owl:Class .
 addr:LandmarkChange rdf:type owl:Class ;
                     rdfs:subClassOf addr:Change ;
                     rdfs:label "changement sur le repère"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#LandmarkRelation
+addr:LandmarkRelation rdf:type owl:Class ;
+                      rdfs:label "relation entre repères"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#LandmarkRelationChange
+addr:LandmarkRelationChange rdf:type owl:Class ;
+                            rdfs:subClassOf addr:Change ;
+                            rdfs:label "changement sur la relation entre repères"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#LandmarkRelationType
+addr:LandmarkRelationType rdf:type owl:Class ;
+                          rdfs:subClassOf skos:Concept ;
+                          rdfs:label "Type de relation entre repères"@fr .
 
 
 ###  http://rdf.geohistoricaldata.org/address#TemporalEntity
@@ -326,13 +370,18 @@ addr:ChangeList rdf:type owl:NamedIndividual ,
                 rdfs:comment "Liste des différents rôles pouvant être joués par un changement, représentés comme une liste de concepts SKOS."@fr ;
                 rdfs:label "type d'événement"@fr .
 
+###  http://rdf.geohistoricaldata.org/address#LandmarkRelationList
+addr:LandmarkRelationList rdf:type owl:NamedIndividual ,
+                         skos:ConceptScheme ;
+                rdfs:comment "Liste des différents rôles pouvant être joués par une relation entre repères, représentés comme une liste de concepts SKOS."@fr ;
+                rdfs:label "type de relation entre repères"@fr .
 
 ###  http://rdf.geohistoricaldata.org/address#ChangeName
 addr:ChangeName rdf:type owl:NamedIndividual ,
                          addr:ChangeType ,
                          skos:Concept ;
                 skos:definition "Changement décrivant la changement d'un nom pour un élément"@fr ;
-                skos:inScheme addr:EventList ;
+                skos:inScheme addr:ChangeList ;
                 skos:prefLabel "changement de nom"@fr .
 
 
@@ -341,7 +390,7 @@ addr:Creation rdf:type owl:NamedIndividual ,
                        addr:ChangeType ,
                        skos:Concept ;
               skos:definition "Changement décrivant la création de l'élément"@fr ;
-              skos:inScheme addr:EventList ;
+              skos:inScheme addr:ChangeList ;
               skos:prefLabel "création"@fr .
 
 
@@ -350,8 +399,25 @@ addr:Dissolution rdf:type owl:NamedIndividual ,
                           addr:ChangeType ,
                           skos:Concept ;
                  skos:definition "Changement décrivant la dissolution de l'élément"@fr ;
-                 skos:inScheme addr:EventList ;
+                 skos:inScheme addr:ChangeList ;
                  skos:prefLabel "dissolution"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#Within
+addr:Within rdf:type owl:NamedIndividual ,
+                        addr:ChangeType ,
+                        skos:Concept ;
+               skos:definition "Relation spatiale entre des repères définissant que le locatum est dans un relatum"@fr ;
+               skos:inScheme addr:LandmarkRelationList ;
+               skos:prefLabel "dans"@fr .
+
+###  http://rdf.geohistoricaldata.org/address#Belongs
+addr:Belongs rdf:type owl:NamedIndividual ,
+                       addr:ChangeType ,
+                       skos:Concept ;
+              skos:definition "Relation entre des repères définissant que le locatum appartient au relatum"@fr ;
+              skos:inScheme addr:LandmarkRelationList ;
+              skos:prefLabel "appartient à"@fr .
 
 
 ###  http://rdf.geohistoricaldata.org/address#hasTime
