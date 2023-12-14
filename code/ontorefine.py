@@ -1,4 +1,5 @@
 import os
+import re
 
 def get_export_file_from_ontorefine(data_file, mapping_file, export_file, ontorefine_cmd, ontorefine_url, project_name):
     project_id = create_ontorefine_project(data_file, ontorefine_cmd, ontorefine_url, project_name)
@@ -9,9 +10,13 @@ def create_ontorefine_project(data_file, ontorefine_cmd, ontorefine_url, project
     # Launch Ontorefine before launching this command
     cmd = f"{ontorefine_cmd} create \"{data_file}\" -u \"{ontorefine_url}\" -n \"{project_name}\""
     msg = os.popen(cmd)
+    msg_content = msg.read()
 
     # Get project_id from message given by CLI
-    project_id = msg.read().split(": ")[1].replace("\n", "")
+    try:
+        project_id = re.findall("identifier: ([0-9]{1,})", msg_content)[0]
+    except IndexError:
+        project_id = None
 
     return project_id
 

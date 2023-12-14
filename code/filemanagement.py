@@ -1,4 +1,5 @@
 import os
+import json
 
 def read_file(filename, split_lines=False):
     file = open(filename, "r")
@@ -7,6 +8,12 @@ def read_file(filename, split_lines=False):
         file_content = file_content.split("\n")
     file.close()
     return file_content
+
+def read_json_file(filename):
+    file = open(filename)
+    data = json.load(file)
+    file.close()
+    return data
 
 def write_file(content,filename):
     file = open(filename, "w")

@@ -12,11 +12,6 @@ def create_landmark(landmark_uri:URIRef, label:str, lang:str, landmark_type:str,
     g.add((landmark_uri, namespace["isLandmarkType"], namespace[landmark_type]))
     g.add((landmark_uri, RDFS.label, Literal(label, lang=lang)))
 
-def create_landmark(landmark_uri:URIRef, label:str, lang:str, landmark_type:str, g:Graph, namespace:Namespace):
-    g.add((landmark_uri, RDF.type, namespace["Landmark"]))
-    g.add((landmark_uri, namespace["isLandmarkType"], namespace[landmark_type]))
-    g.add((landmark_uri, RDFS.label, Literal(label, lang=lang)))
-
 def create_event(event_uri:URIRef, g:Graph, namespace:Namespace):
     g.add((event_uri, RDF.type, namespace["Event"]))
 
