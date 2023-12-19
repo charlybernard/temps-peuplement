@@ -350,7 +350,7 @@ addr:LandmarkVersion rdf:type owl:Class ;
                                        owl:onProperty addr:hasTime ;
                                        owl:allValuesFrom addr:TimeInterval
                                      ] ;
-                     rdfs:label "version du repère"@fr .
+                     rdfs:label "version de repère"@fr .
 
 
 ###  http://rdf.geohistoricaldata.org/address#TemporalEntity
