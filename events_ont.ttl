@@ -1,3 +1,4 @@
+@prefix : <http://rdf.geohistoricaldata.org/address#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
@@ -56,6 +57,7 @@ addr:appliedTo rdf:type owl:ObjectProperty ;
                rdfs:range [ rdf:type owl:Class ;
                             owl:unionOf ( addr:Attribute
                                           addr:Landmark
+                                          addr:LandmarkRelation
                                         )
                           ] ;
                rdfs:comment "Définit sur quoi s'applique le changement"@fr ;
@@ -102,15 +104,61 @@ addr:hasEnd rdf:type owl:ObjectProperty ;
             rdfs:label "finit par"@fr .
 
 
+###  http://rdf.geohistoricaldata.org/address#hasFuzzyBeggining
+addr:hasFuzzyBeggining rdf:type owl:ObjectProperty ;
+                  rdfs:domain addr:FuzzyTimeInstant ;
+                  rdfs:range addr:CrispTimeInstant ;
+                  rdfs:comment "Définit le début de validité pour un instant flou"@fr ;
+                  rdfs:label "a pour début flou"@fr .
+
+###  http://rdf.geohistoricaldata.org/address#hasFuzzyEnd
+addr:hasFuzzyEnd rdf:type owl:ObjectProperty ;
+                  rdfs:domain addr:FuzzyTimeInstant ;
+                  rdfs:range addr:CrispTimeInstant ;
+                  rdfs:comment "Définit la fin de validité pour un instant flou"@fr ;
+                  rdfs:label "a pour fin floue"@fr .
+
+###  http://rdf.geohistoricaldata.org/address#hasFuzzyPeak
+addr:hasFuzzyPeak rdf:type owl:ObjectProperty ;
+                  rdfs:domain addr:FuzzyTimeInstant ;
+                  rdfs:range addr:CrispTimeInstant ;
+                  rdfs:comment "Définit le pic de validité pour un instant flou"@fr ;
+                  rdfs:label "a pour pic flou"@fr .
+
+
 ###  http://rdf.geohistoricaldata.org/address#hasTime
 addr:hasTime rdf:type owl:ObjectProperty ;
-             rdfs:domain addr:Event ;
-             rdfs:range addr:TimeInstant .
+             rdfs:range addr:TemporalEntity .
+
+
+###  http://rdf.geohistoricaldata.org/address#isLandmarkRelationType
+addr:isLandmarkRelationType rdf:type owl:ObjectProperty ;
+                            rdfs:domain addr:LandmarkRelation ;
+                            rdfs:comment "Décrit le type de relation entre repères définie par la ressource."@fr ;
+                            rdfs:label "est une relation entre repères de type"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#locatum
+addr:locatum rdf:type owl:ObjectProperty ;
+             rdfs:domain addr:LandmarkRelation ;
+             rdfs:range addr:Landmark ;
+             rdfs:comment "Donne le repère qui est le locatum pour la relation entre repères"@fr ;
+             rdfs:label "a pour locatum"@fr ,
+                        "has locatum"@en .
+
+
+###  http://rdf.geohistoricaldata.org/address#relatum
+addr:relatum rdf:type owl:ObjectProperty ;
+             rdfs:domain addr:LandmarkRelation ;
+             rdfs:range addr:Landmark ;
+             rdfs:comment "Donne le repère qui est un des relatums pour la relation entre repères"@fr ;
+             rdfs:label "a pour relatum"@fr ,
+                        "has relatum"@en .
 
 
 ###  http://rdf.geohistoricaldata.org/address#timeCalendar
 addr:timeCalendar rdf:type owl:ObjectProperty ;
-                  rdfs:domain addr:TimeInstant ;
+                  rdfs:domain addr:CrispTimeInstant ;
                   rdfs:range time:TRS ;
                   rdfs:comment "Calendrier lié à l'instant (grégorien, julien, révolutionnaire)"@fr ;
                   rdfs:label "a pour calendrier"@fr .
@@ -118,7 +166,7 @@ addr:timeCalendar rdf:type owl:ObjectProperty ;
 
 ###  http://rdf.geohistoricaldata.org/address#timePrecision
 addr:timePrecision rdf:type owl:ObjectProperty ;
-                   rdfs:domain addr:TimeInstant ;
+                   rdfs:domain addr:CrispTimeInstant ;
                    rdfs:range time:TemporalUnit ;
                    rdfs:comment "Précision de l'instant (au jour, au mois, à l'année...)"@fr ;
                    rdfs:label "a pour précision temporelle"@fr .
@@ -132,13 +180,21 @@ addr:version rdf:type owl:ObjectProperty ;
              rdfs:label "a pour version"@fr .
 
 
+###  http://rdf.geohistoricaldata.org/address#versionOf
+addr:versionOf rdf:type owl:ObjectProperty ;
+               rdfs:domain addr:LandmarkVersion ;
+               rdfs:range addr:Landmark ;
+               rdfs:comment "Définit pour une version de quel repère elle dépend"@fr ;
+               rdfs:label "est une version de"@fr .
+
+
 #################################################################
 #    Data properties
 #################################################################
 
 ###  http://rdf.geohistoricaldata.org/address#timeStamp
 addr:timeStamp rdf:type owl:DatatypeProperty ;
-               rdfs:domain addr:TimeInstant ;
+               rdfs:domain addr:CrispTimeInstant ;
                rdfs:range xsd:dateTimeStamp .
 
 
@@ -183,12 +239,9 @@ addr:Change rdf:type owl:Class ;
                               owl:allValuesFrom [ rdf:type owl:Class ;
                                                   owl:unionOf ( addr:Attribute
                                                                 addr:Landmark
+                                                                addr:LandmarkRelation
                                                               )
                                                 ]
-                            ] ,
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty addr:dependsOn ;
-                              owl:allValuesFrom addr:Event
                             ] ;
             rdfs:label "changement"@fr .
 
@@ -196,22 +249,108 @@ addr:Change rdf:type owl:Class ;
 ###  http://rdf.geohistoricaldata.org/address#ChangeType
 addr:ChangeType rdf:type owl:Class ;
                 rdfs:subClassOf skos:Concept ;
-                rdfs:label "Type d'événement"@fr .
+                rdfs:label "Type de changement"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#CrispTemporalEntity
+addr:CrispTemporalEntity rdf:type owl:Class ;
+                         rdfs:subClassOf addr:TemporalEntity ;
+                         rdfs:label "entité temporelle non floue"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#CrispTimeInstant
+addr:CrispTimeInstant rdf:type owl:Class ;
+                      rdfs:subClassOf addr:CrispTemporalEntity ,
+                                      addr:TimeInstant ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty addr:timeCalendar ;
+                                        owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass time:TRS
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty addr:timePrecision ;
+                                        owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass time:TemporalUnit
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty addr:timeStamp ;
+                                        owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onDataRange xsd:dateTimeStamp
+                                      ] ;
+                      rdfs:label "instant précis"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#CrispTimeInterval
+addr:CrispTimeInterval rdf:type owl:Class ;
+                       rdfs:subClassOf addr:CrispTemporalEntity ,
+                                       addr:TimeInterval ;
+                       rdfs:label "intervalle temporel précis"@fr .
 
 
 ###  http://rdf.geohistoricaldata.org/address#Event
 addr:Event rdf:type owl:Class ;
+          rdfs:subClassOf [ rdf:type owl:Restriction ;
+                            owl:onProperty addr:hasTime ;
+                            owl:allValuesFrom addr:TimeInstant
+                          ] ;
            rdfs:label "événement"@fr .
 
 
+###  http://rdf.geohistoricaldata.org/address#FuzzyTemporalEntity
+addr:FuzzyTemporalEntity rdf:type owl:Class ;
+                         rdfs:subClassOf addr:TemporalEntity ;
+                         rdfs:label "entité temporelle floue"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#FuzzyTimeInstant
+addr:FuzzyTimeInstant rdf:type owl:Class ;
+                      rdfs:subClassOf addr:FuzzyTemporalEntity ,
+                                      addr:TimeInstant ;
+                      rdfs:label "instant temporel flou"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#FuzzyTimeInterval
+addr:FuzzyTimeInterval rdf:type owl:Class ;
+                       rdfs:subClassOf addr:FuzzyTemporalEntity ,
+                                       addr:TimeInterval ;
+                       rdfs:label "intervalle temporel flou"@fr .
+
+
 ###  http://rdf.geohistoricaldata.org/address#Landmark
-addr:Landmark rdf:type owl:Class .
+addr:Landmark rdf:type owl:Class ;
+              rdfs:label "repère"@fr .
 
 
 ###  http://rdf.geohistoricaldata.org/address#LandmarkChange
 addr:LandmarkChange rdf:type owl:Class ;
                     rdfs:subClassOf addr:Change ;
                     rdfs:label "changement sur le repère"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#LandmarkRelation
+addr:LandmarkRelation rdf:type owl:Class ;
+                      rdfs:label "relation entre repères"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#LandmarkRelationChange
+addr:LandmarkRelationChange rdf:type owl:Class ;
+                            rdfs:subClassOf addr:Change ;
+                            rdfs:label "changement sur la relation entre repères"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#LandmarkRelationType
+addr:LandmarkRelationType rdf:type owl:Class ;
+                          rdfs:subClassOf skos:Concept ;
+                          rdfs:label "Type de relation entre repères"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#LandmarkVersion
+addr:LandmarkVersion rdf:type owl:Class ;
+                     rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                       owl:onProperty addr:hasTime ;
+                                       owl:allValuesFrom addr:TimeInterval
+                                     ] ;
+                     rdfs:label "version du repère"@fr .
 
 
 ###  http://rdf.geohistoricaldata.org/address#TemporalEntity
@@ -221,22 +360,7 @@ addr:TemporalEntity rdf:type owl:Class ;
 
 ###  http://rdf.geohistoricaldata.org/address#TimeInstant
 addr:TimeInstant rdf:type owl:Class ;
-                 rdfs:subClassOf addr:TemporalEntity ,
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty addr:timeCalendar ;
-                                   owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                   owl:onClass time:TRS
-                                 ] ,
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty addr:timePrecision ;
-                                   owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                   owl:onClass time:TemporalUnit
-                                 ] ,
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty addr:timeStamp ;
-                                   owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                   owl:onDataRange xsd:dateTimeStamp
-                                 ] ;
+                 rdfs:subClassOf addr:TemporalEntity ;
                  rdfs:label "instant"@fr .
 
 
@@ -273,6 +397,15 @@ addr:AttributeList rdf:type owl:NamedIndividual ,
                    rdfs:label "type d'attribut"@fr .
 
 
+###  http://rdf.geohistoricaldata.org/address#Belongs
+addr:Belongs rdf:type owl:NamedIndividual ,
+                      addr:LandmarkRelationType ,
+                      skos:Concept ;
+             skos:definition "Relation entre des repères définissant que le locatum appartient au relatum"@fr ;
+             skos:inScheme addr:LandmarkRelationList ;
+             skos:prefLabel "appartient à"@fr .
+
+
 ###  http://rdf.geohistoricaldata.org/address#ChangeList
 addr:ChangeList rdf:type owl:NamedIndividual ,
                          skos:ConceptScheme ;
@@ -285,7 +418,7 @@ addr:ChangeName rdf:type owl:NamedIndividual ,
                          addr:ChangeType ,
                          skos:Concept ;
                 skos:definition "Changement décrivant la changement d'un nom pour un élément"@fr ;
-                skos:inScheme addr:EventList ;
+                skos:inScheme addr:ChangeList ;
                 skos:prefLabel "changement de nom"@fr .
 
 
@@ -294,7 +427,7 @@ addr:Creation rdf:type owl:NamedIndividual ,
                        addr:ChangeType ,
                        skos:Concept ;
               skos:definition "Changement décrivant la création de l'élément"@fr ;
-              skos:inScheme addr:EventList ;
+              skos:inScheme addr:ChangeList ;
               skos:prefLabel "création"@fr .
 
 
@@ -303,8 +436,33 @@ addr:Dissolution rdf:type owl:NamedIndividual ,
                           addr:ChangeType ,
                           skos:Concept ;
                  skos:definition "Changement décrivant la dissolution de l'élément"@fr ;
-                 skos:inScheme addr:EventList ;
+                 skos:inScheme addr:ChangeList ;
                  skos:prefLabel "dissolution"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#LandmarkRelationList
+addr:LandmarkRelationList rdf:type owl:NamedIndividual ,
+                                   skos:ConceptScheme ;
+                          rdfs:comment "Liste des différents rôles pouvant être joués par une relation entre repères, représentés comme une liste de concepts SKOS."@fr ;
+                          rdfs:label "type de relation entre repères"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#NameAttribute
+addr:NameAttribute rdf:type owl:NamedIndividual ,
+                            addr:AttributeType ,
+                            skos:Concept ;
+                   skos:definition "Attribut décrivant le nom d'un élément"@fr ;
+                   skos:inScheme addr:AttributeList ;
+                   skos:prefLabel "attribut de nom"@fr .
+
+
+###  http://rdf.geohistoricaldata.org/address#Within
+addr:Within rdf:type owl:NamedIndividual ,
+                     addr:LandmarkRelationType ,
+                     skos:Concept ;
+            skos:definition "Relation spatiale entre des repères définissant que le locatum est dans un relatum"@fr ;
+            skos:inScheme addr:LandmarkRelationList ;
+            skos:prefLabel "dans"@fr .
 
 
 ###  http://rdf.geohistoricaldata.org/address#hasTime
@@ -335,4 +493,4 @@ addr:timeStamp rdfs:comment "Timestamp lié à l'instant"@fr ;
                rdfs:label "a pour timestamp"@fr .
 
 
-###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
+###  Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi
