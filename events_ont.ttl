@@ -417,25 +417,25 @@ addr:ChangeList rdf:type owl:NamedIndividual ,
 addr:ChangeName rdf:type owl:NamedIndividual ,
                          addr:ChangeType ,
                          skos:Concept ;
-                skos:definition "Changement décrivant la changement d'un nom pour un élément"@fr ;
+                skos:definition "Changement décrivant la changement d'un nom pour un repère"@fr ;
                 skos:inScheme addr:ChangeList ;
                 skos:prefLabel "changement de nom"@fr .
 
 
 ###  http://rdf.geohistoricaldata.org/address#Creation
-addr:Creation rdf:type owl:NamedIndividual ,
+addr:LandmarkCreation rdf:type owl:NamedIndividual ,
                        addr:ChangeType ,
                        skos:Concept ;
-              skos:definition "Changement décrivant la création de l'élément"@fr ;
+              skos:definition "Changement décrivant la création du repère"@fr ;
               skos:inScheme addr:ChangeList ;
               skos:prefLabel "création"@fr .
 
 
 ###  http://rdf.geohistoricaldata.org/address#Dissolution
-addr:Dissolution rdf:type owl:NamedIndividual ,
+addr:LandmarkDissolution rdf:type owl:NamedIndividual ,
                           addr:ChangeType ,
                           skos:Concept ;
-                 skos:definition "Changement décrivant la dissolution de l'élément"@fr ;
+                 skos:definition "Changement décrivant la dissolution du repère"@fr ;
                  skos:inScheme addr:ChangeList ;
                  skos:prefLabel "dissolution"@fr .
 
